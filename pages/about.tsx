@@ -14,7 +14,7 @@ export default function About() {
     const body = { email, password };
 
     return axios
-      .post("http://localhost:3000/api/auth", {
+      .post("/api/auth", {
         email: email,
         password: password
       })
@@ -33,7 +33,7 @@ export default function About() {
   useEffect(() => {
     if (token)
       axios
-        .get("http://localhost:3000/api/whoami", {
+        .get("/api/whoami", {
           headers: {
             Authorization: token
           }
