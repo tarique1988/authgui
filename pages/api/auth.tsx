@@ -7,7 +7,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   const body = { email: email, password: password };
 
   return axios
-    .post("http://authsys.tamcreates.com/api/v1/auth/login", body, {
+    .post("http://localhost:3000/api/v1/auth/login", body, {
       headers: { "content-type": "application/json" }
     })
     .then((response) => {
