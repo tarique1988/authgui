@@ -6,7 +6,7 @@ const LoginForm = ({ login }) => {
 
 	const updateValue = (e: ChangeEvent<HTMLInputElement>) => {
 		switch (e.target.type) {
-			case "text":
+			case "email":
 				setEmail(e.target.value);
 				break;
 			case "password":
@@ -19,8 +19,8 @@ const LoginForm = ({ login }) => {
 		<form className="flex flex-col justify-evenly items-center p-4">
 			<div>
 				<input
-					className="mt-4 px-2 py-1 border-gray-200 hover:border-gray-400 focus:border-gray-900 border-2 rounded-lg outline-none text-gray-900"
-					type="text"
+					className="mt-6 px-2 py-1 border-gray-100 hover:border-green-400 focus:border-green-600 cursor-pointer border-2 rounded-lg outline-none text-gray-900"
+					type="email"
 					placeholder="Email"
 					value={email}
 					onChange={updateValue}
@@ -29,14 +29,14 @@ const LoginForm = ({ login }) => {
 
 			<div>
 				<input
-					className="mt-4 px-2 py-1 border-gray-200 hover:border-gray-400 focus:border-gray-900 border-2 rounded-lg outline-none text-gray-900"
+					className="mt-6 px-2 py-1 border-gray-100 hover:border-green-400 focus:border-green-600 cursor-pointer border-2 rounded-lg outline-none text-gray-900"
 					type="password"
 					placeholder="Password"
 					value={password}
 					onChange={updateValue}
 				/>
 			</div>
-			<div className="mt-4">
+			<div className="mt-8">
 				<button
 					className="px-4 py-1 bg-red-500 hover:bg-red-600 rounded-lg text-white outline-none focus:outline-none"
 					type="reset"

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import axios, { AxiosRequestConfig } from "axios";
+import Head from "next/head"
+import axios from "axios";
 import LoginForm from "../components/loginForm";
 
 export default function Home() {
@@ -9,15 +10,26 @@ export default function Home() {
 	const [loading, setLoading] = useState(false);
 	useState<{ email: string; password: string }>(null);
 
-	const login = async (email: string, password: string) => {
-		if (!email || !password) {
+  const login = async (email: string, password: string) => {
+    const re =
+		/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!email || !password) {
 			setError({
-				name: "Credential Error",
+				name: "Invalid Input",
 				message: "Email or Password cannot be empty!"
 			});
 			return;
-		}
-		setLoading(true);
+    }
+    
+    if (!re.test(email)) {
+      setError({
+        name: "Inavlid Email",
+        message: "Please enter a valid email."
+      })
+      return
+    }
+    
+    setLoading(true);
 		return axios
 			.post("/api/auth", {
 				email: email,
@@ -68,47 +80,66 @@ export default function Home() {
 			}, 5000);
 	}, [error]);
 
-	return (
-		<div className="flex flex-col justify-center items-center h-screen">
-			<div className="shadow-xl p-10 rounded-xl">
-				{loading ? <h1 className="text-lg">Loading.</h1> : ""}
-				{token && !user ? (
-					<h1>Received token, identifying user...</h1>
-				) : (
-					""
-				)}
-				{user ? (
-					<div className="flex flex-col justify-center items-center">
-						<h1>
-							Logged in as{" "}
-							<span className="text-2xl font-bold text-blue-800">
-								{user.name}
-							</span>
-						</h1>
-						<button
-							onClick={() => {
-								setUser(null);
-								setToken(null);
-								setError(null);
-							}}
-							className="rounded-xl px-4 py-2 bg-red-500 text-white mt-5 hover:bg-red-600 focus:outline-none"
-						>
-							Logout
-						</button>
-					</div>
-				) : (
-					""
-				)}
-				{!token && !user && !loading ? <LoginForm login={login} /> : ""}
-				{error ? (
-					<h1 className="absolute py-1 px-4 bg-red-700 text-white rounded-xl inline-block">
-						{" "}
-						{error.message}{" "}
+  return (
+		<>
+			<Head>
+				<title>TAM Creates | Login</title>
+			</Head>
+			<div className="flex flex-col justify-center items-center h-screen bg-gray-200">
+				<div className="bg-yellow-300 px-6 py-4 rounded-xl text-center hover:shadow-xl cursor-default">
+					<h1 className="text-gray-700 font-extrabold text-2xl">
+						Welcome to TAM creates
 					</h1>
-				) : (
-					""
-				)}
+					<h1 className="mt-2 text-gray-700 font-bold">
+						Please login to continue
+					</h1>
+				</div>
+				<div className="rounded-xl p-10 bg-gray-50 mt-12 hover:shadow-2xl">
+					{loading ? <h1 className="text-lg">Loading.</h1> : ""}
+					{token && !user ? (
+						<h1>Received token, identifying user...</h1>
+					) : (
+						""
+					)}
+					{user ? (
+						<div className="flex flex-col justify-center items-center">
+							<h1>
+								Logged in as{" "}
+								<span className="text-2xl font-bold text-blue-800">
+									{user.name}
+								</span>
+							</h1>
+							<button
+								onClick={() => {
+									setUser(null);
+									setToken(null);
+									setError(null);
+								}}
+								className="rounded-xl px-4 py-2 bg-red-500 text-white mt-5 hover:bg-red-600 focus:outline-none"
+							>
+								Logout
+							</button>
+						</div>
+					) : (
+						""
+					)}
+					{!token && !user && !loading ? (
+						<LoginForm login={login} />
+					) : (
+						""
+					)}
+					<div className="flex justify-center items-center h-10 mt-2">
+						{error ? (
+							<h1 className="py-2 px-4 bg-red-200 text-red-600 rounded-xl inline-block">
+								{" "}
+								{error.message}{" "}
+							</h1>
+						) : (
+							""
+						)}
+					</div>
+				</div>
 			</div>
-		</div>
-	);
+		</>
+  );
 }
