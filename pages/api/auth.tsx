@@ -7,18 +7,18 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   const body = { email: email, password: password };
 
   return axios
-    .post("http://localhost:3000/api/v1/auth/login", body, {
-      headers: { "content-type": "application/json" }
-    })
-    .then((response) => {
-      return res.status(200).json(response.data);
-    })
-    .catch((err) => {
-      return res.status(500).json({
-        success: false,
-        data: {},
-        errors: [err],
-        message: err.message
-      });
-    });
+		.post("https://authsys.tamcreates.com/api/v1/auth/login", body, {
+			headers: { "content-type": "application/json" }
+		})
+		.then((response) => {
+			res.status(200).json(response.data);
+		})
+		.catch((err) => {
+			res.status(401).json({
+				success: false,
+				data: {},
+				errors: [err],
+				message: err.message
+			});
+		});
 }
