@@ -85,16 +85,16 @@ export default function Home() {
 			<Head>
 				<title>TAM Creates | Login</title>
 			</Head>
-			<div className="flex flex-col justify-center items-center h-screen bg-gray-200">
+			<div className="flex flex-col justify-center items-center min-h-screen min-w-min bg-gray-200">
 				<div className="bg-yellow-300 px-6 py-4 rounded-xl text-center hover:shadow-xl cursor-default">
 					<h1 className="text-gray-700 font-extrabold text-2xl">
 						Welcome to TAM creates
 					</h1>
 					<h1 className="mt-2 text-gray-700 font-bold">
-						Please login to continue
+					  { !token ? "Please login to continue" : !user ? "Please wait..." : `Welcome, ${user.name}`}
 					</h1>
 				</div>
-				<div className="rounded-xl p-10 bg-gray-50 mt-12 hover:shadow-2xl">
+				<div className="rounded-xl p-10 bg-gray-50 mt-12 hover:shadow-2xl min-w-min">
 					{loading ? <h1 className="text-lg">Loading.</h1> : ""}
 					{token && !user ? (
 						<h1>Received token, identifying user...</h1>
