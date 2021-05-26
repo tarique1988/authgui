@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Head from "next/head"
 import axios from "axios";
-import LoginForm from "../components/loginForm";
+import LoginForm from "../components/LoginForm";
 
 export default function Home() {
 	const [token, setToken] = useState<string>(null);
