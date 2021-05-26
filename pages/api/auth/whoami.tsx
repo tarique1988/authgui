@@ -3,17 +3,24 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import axios from "axios";
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  return axios
+  if (!req.headers.authorization)
+		return res.status(401).json({
+			success: false,
+			errors: [
+				{ name: "UnauthorizedError", message: "Authorization failed." }
+			]
+		});
+  axios
     .get("http://authsys.tamcreates.com/api/v1/auth/whoami", {
       headers: {
         Authorization: `Bearer ${req.headers.authorization}`
       }
     })
     .then((response) => {
-      res.status(response.status).json(response.data);
+      return res.status(response.status).json(response.data);
     })
     .catch((err) => {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         data: {},
         errors: [err],
