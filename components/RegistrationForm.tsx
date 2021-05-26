@@ -61,9 +61,10 @@ const RegistrationForm = ({ register }) => {
 					type="submit"
 					onClick={(e) => {
 						e.preventDefault();
-						register(email, password);
+						register(fullName, email, password);
 						setEmail("");
-						setPassword("");
+                        setPassword("");
+                        setFullName("");
 					}}
 				>
 					Register
