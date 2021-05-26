@@ -10,7 +10,6 @@ export default function Home() {
 	const [error, setError] = useState<{ name: string; message: string }>(null);
 	const [loading, setLoading] = useState(false);
 	const [isLogin, setIsLogin] = useState(true);
-	useState<{ email: string; password: string }>(null);
 
 	const login = async (email: string, password: string) => {
 		const re =
@@ -110,7 +109,7 @@ export default function Home() {
 	useEffect(() => {
 		if (token)
 			axios
-				.get("/api/whoami", {
+				.get("/api/auth/whoami", {
 					headers: {
 						Authorization: token
 					}
@@ -151,9 +150,11 @@ export default function Home() {
 					<h1 className="text-gray-700 font-extrabold text-2xl">
 						Welcome to TAM creates
 					</h1>
-					<h1 className="mt-2 text-gray-700 font-bold">
+					<h1 className="mt-2 text-gray-700 font-bold capitalize">
 						{!token
-							? (isLogin ? "Please login to continue" : "Please register to continue")
+							? isLogin
+								? "Please login to continue"
+								: "Please register to continue"
 							: !user
 							? "Please wait..."
 							: `Welcome, ${user.name}`}
@@ -170,7 +171,7 @@ export default function Home() {
 						<div className="flex flex-col justify-center items-center">
 							<h1>
 								Logged in as{" "}
-								<span className="text-2xl font-bold text-blue-800">
+								<span className="text-2xl font-bold text-blue-800 capitalize">
 									{user.name}
 								</span>
 							</h1>
@@ -193,7 +194,10 @@ export default function Home() {
 							<LoginForm login={login} />
 							<p className="text-center">
 								Don't have an account?{" "}
-								<button className="text-green-600 font-semibold focus:outline-none" onClick={toggleLogin}>
+								<button
+									className="text-green-600 font-semibold focus:outline-none"
+									onClick={toggleLogin}
+								>
 									Register
 								</button>
 							</p>
@@ -206,7 +210,10 @@ export default function Home() {
 							<RegistrationForm register={register} />
 							<p className="text-center">
 								Already have an account?{" "}
-								<button className="text-green-600 font-semibold focus:outline-none" onClick={toggleLogin}>
+								<button
+									className="text-green-600 font-semibold focus:outline-none"
+									onClick={toggleLogin}
+								>
 									Login
 								</button>
 							</p>
